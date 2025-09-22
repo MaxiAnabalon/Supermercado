@@ -94,6 +94,19 @@ public class TestSupermercado {
 				System.out.println("Error forzado 3 (eliminarProducto)"  + e);
 			}
 			
+			try {
+				supermercadoKpop.getLstCarrito().get(0).agregarItem(supermercadoKpop.traerProducto(1), 75);
+				
+				for(var it : supermercadoKpop.getLstCarrito().get(0).getLstItem()) {
+					System.out.println("Items" + it);
+					System.out.println("Subtotal: " + it.calcularSubTotal());
+				}
+				
+				System.out.println("Total carrito: " + supermercadoKpop.getLstCarrito().get(0).calcularTotal());
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			
 		}catch(Exception e) {
 			System.out.println("Error general" + e);
 		}
