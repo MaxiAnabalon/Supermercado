@@ -9,7 +9,7 @@ public class ItemCarrito {
 	private int cantidad;
 	
 	public ItemCarrito(int idItem, Producto producto, int cantidad) {
-		//super();
+		super();
 		this.idItem = idItem; 
 		this.producto = producto;
 		this.cantidad = cantidad;
@@ -47,6 +47,14 @@ public class ItemCarrito {
 	public void agregarCantidad(int cantidad) {
 	    this.cantidad += cantidad;
 	}
-
+	
+	public void restarCantidad(int cantidad) {
+	    this.cantidad -= cantidad;
+	}
+	
+	public float calcularSubTotal() {
+		return this.producto.getPrecio() * this.cantidad;
+	}
+	
 	
 }

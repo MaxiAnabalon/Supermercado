@@ -87,11 +87,49 @@ public class Carrito {
 		Producto producExistenteLstItems = traerProducto(producto.getIdProducto());
 		if(producExistenteLstItems != null) {
 			ItemCarrito itemCarritoProd = buscarItemCarritoPorIdProd(producto.getIdProducto());
-			lstItem.get(itemCarritoProd.getIdItem()).agregarCantidad(cantidad);			
+			itemCarritoProd.agregarCantidad(cantidad);
+			//lstItem.get(itemCarritoProd.getIdItem()).agregarCantidad(cantidad);			
 		}else{
-			int id = lstItem.get(lstItem.size()-1).getIdItem() + 1;
+			int id = 1;
+			if(lstItem.size() > 0){
+				id = lstItem.get(lstItem.size()-1).getIdItem() + 1;
+			}
 			lstItem.add(new ItemCarrito(id, producto, cantidad));
 		}
 		return true;
+	}
+	
+	public boolean eliminarItem(Producto producto, int cantidad)throws Exception {
+		Producto producExistenteLstItems = traerProducto(producto.getIdProducto());
+		
+		if(producExistenteLstItems != null) {
+			ItemCarrito itemCarritoProd = buscarItemCarritoPorIdProd(producto.getIdProducto());
+			
+			if(itemCarritoProd != null) {
+				int indexEliminar = lstItem.indexOf(itemCarritoProd);
+				if(itemCarritoProd.getCantidad() == cantidad) {
+					
+					//System.out.println(indexEliminar);
+					lstItem.remove(indexEliminar); 
+				}else {
+					
+					lstItem.get(indexEliminar).restarCantidad(cantidad);
+				}
+			}else {
+				throw new Exception("No existe el producto a eliminar, no se encontro item");
+			}			
+		}else{
+			throw new Exception("No existe el producto a eliminar, no se encontro item");
+		}
+		
+		return true;
+	}
+	
+	public float calcularTotal() {
+		float total = 0;
+		for (ItemCarrito item : lstItem){
+			total += item.calcularSubTotal();
+		}
+		return total;
 	}
 }

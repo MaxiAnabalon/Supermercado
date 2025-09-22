@@ -3,7 +3,10 @@ package Modelo;
 import Modelo.Producto;
 import Modelo.Carrito;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Supermercado {
 	
@@ -40,25 +43,24 @@ public class Supermercado {
 	public boolean agregarProducto(String producto, float precio) throws Exception {
 		int i = 0;
 		boolean noEsIgual = true;
+		
 		while(noEsIgual && i < gondola.size()) {
 			if(gondola.get(i).equal(producto)) {
 				noEsIgual = false;
 			}
 			i++;
 		}
-		//verificamos que no es existe y lo agregamos
+		
 		if(noEsIgual == true) {
-			int id = gondola.get(gondola.size()-1).getIdProducto() + 1;
+			int id = 1;
+			if(gondola.size() > 0){
+				id = gondola.get(gondola.size()-1).getIdProducto() + 1;
+			}
 			gondola.add(new Producto(id, producto, precio));
 		}else {
 			throw new Exception("ERROR: El producto ya existe");
 		}
 		return noEsIgual;
-		
-		/*for (Producto p : gondola) {
-		if(p.equal(producto)) {
-			throw new Exception("ERROR: El producto ya existe");
-		}*/
 	}
 	
 	public Producto traerProducto(int idProducto) {
@@ -72,16 +74,18 @@ public class Supermercado {
 			
 			i++;
 		}
-		
 		return producto;
 	}
 		
 	public boolean modificaProducto(int idProducto, String producto, float precio) throws Exception {
 		Producto productoMod = null;
 		productoMod = traerProducto(idProducto);
+		
 		if(productoMod == null) {
 			throw new Exception("ERROR: Producto no existe");
 		}
+		gondola.get(gondola.indexOf(productoMod)).setPrecio(precio);
+		gondola.get(gondola.indexOf(productoMod)).setProducto(producto);
 		return true;
 	}
 	
@@ -107,5 +111,12 @@ public class Supermercado {
 		return true;
 	}
 	
-	
+	public boolean agregarCarrito(LocalDate fecha, LocalDateTime hora) throws Exception {
+		int id = 1;
+		if(lstCarrito.size() > 0){
+			id = lstCarrito.get(lstCarrito.size()-1).getIdCarrito() + 1;
+		}
+		lstCarrito.add(new Carrito(id,fecha,hora));
+		return true;
+	}
 }
